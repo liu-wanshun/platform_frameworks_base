@@ -1,0 +1,17 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.android.wm.shell'
+
+    sourceSets {
+        main {
+            java.srcDirs = ["src"]
+        }
+    }
+    addFrameworkJar('framework-13.jar')
+}
+dependencies {
+    api fileTree(dir: new File(rootProject.projectDir, "libs"), include: "wm_shell-aidls.jar")
+}

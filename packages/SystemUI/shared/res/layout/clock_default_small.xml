@@ -23,7 +23,6 @@
     android:layout_gravity="start"
     android:gravity="start"
     android:textSize="@dimen/small_clock_text_size"
-    android:fontFamily="@*android:string/config_clockFontFamily"
     android:elegantTextHeight="false"
     android:ellipsize="none"
     android:singleLine="true"
