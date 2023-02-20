@@ -1,10 +1,17 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
 }
 
 android {
     namespace 'com.android.wm.shell'
-
+    compileSdk 33
+    defaultConfig {
+        minSdk 28
+        targetSdk 33
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
     sourceSets {
         main {
             java.srcDirs = ["src"]
@@ -13,5 +20,18 @@ android {
     addFrameworkJar('framework-13.jar')
 }
 dependencies {
-    api fileTree(dir: new File(rootProject.projectDir, "libs"), include: "wm_shell-aidls.jar")
+    implementation 'androidx.core:core-ktx:1.9.0'
+    api fileTree(dir: new File(rootProject.projectDir, "prebuilt"), include: "wm_shell-aidls.jar")
+}
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.release
+                groupId = "com.github.liu-wanshun"
+                artifactId = 'launcherlib-wmshell'
+                version = "13"
+            }
+        }
+    }
 }

@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
+    id 'maven-publish'
 }
 
 android {
@@ -9,7 +10,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        minSdk 24
+        minSdk 28
         targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -44,4 +45,16 @@ dependencies {
     implementation("androidx.dynamicanimation:dynamicanimation:1.0.0")
     implementation "com.google.dagger:dagger:2.44.2"
     kapt "com.google.dagger:dagger-compiler:2.44.2"
+}
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.release
+                groupId = "com.github.liu-wanshun"
+                artifactId = 'launcherlib-systemui-unfold'
+                version = "13"
+            }
+        }
+    }
 }

@@ -1,0 +1,31 @@
+pluginManagement {
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url "https://maven.aliyun.com/repository/public" }
+    }
+}
+
+
+// SystemUI shared dependencies
+include ':wm_shell'
+project(':wm_shell').projectDir = new File("libs/WindowManager/Shell")
+include ':SystemUIAnimation'
+project(':SystemUIAnimation').projectDir = new File("packages/SystemUI/animation")
+include ':SystemUIPlugin'
+project(':SystemUIPlugin').projectDir = new File("packages/SystemUI/plugin")
+include ':PluginCore'
+project(':PluginCore').projectDir = new File("packages/SystemUI/plugin_core")
+include ':SystemUIShared'
+project(':SystemUIShared').projectDir = new File("packages/SystemUI/shared")
+include ':SystemUIUnfold'
+project(':SystemUIUnfold').projectDir = new File("packages/SystemUI/unfold")

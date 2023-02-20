@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -8,7 +9,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        minSdk 23
+        minSdk 28
         targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -45,4 +46,16 @@ android {
 
 dependencies {
     implementation project(path: ':PluginCore')
+}
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.release
+                groupId = "com.github.liu-wanshun"
+                artifactId = 'launcherlib-systemui-animation'
+                version = "13"
+            }
+        }
+    }
 }

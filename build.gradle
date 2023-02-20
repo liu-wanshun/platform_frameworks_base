@@ -1,0 +1,37 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id "com.android.library" version "7.3.1" apply false
+    id "org.jetbrains.kotlin.android" version "1.7.21" apply false
+}
+
+subprojects {
+    ext.addFrameworkJar = { String path ->
+        def frameworkJar = new File(rootProject.projectDir, 'prebuilt/' + path)
+        if (!frameworkJar.exists()) {
+            throw new IllegalArgumentException("Framework jar path doesn't exist")
+        }
+        gradle.projectsEvaluated {
+            tasks.withType(JavaCompile) {
+                options.bootstrapClasspath = files([frameworkJar] + (options.bootstrapClasspath.files as Iterable<File>))
+            }
+            tasks.withType(KotlinCompile) {
+                it.libraries.setFrom(files([frameworkJar] + it.libraries.getFrom()))
+            }
+        }
+    }
+    plugins.withId("maven-publish") {
+        project.publishing {
+            repositories {
+                maven {
+                    name = "GitHubPackages"
+                    url = "https://maven.pkg.github.com/liu-wanshun/platform_frameworks_base"
+                    credentials {
+                        username = System.getenv("GITHUB_ACTOR")
+                        password = System.getenv("GITHUB_TOKEN")
+                    }
+                }
+            }
+        }
+    }
+}
