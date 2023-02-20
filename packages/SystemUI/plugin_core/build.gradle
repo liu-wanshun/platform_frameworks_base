@@ -39,9 +39,7 @@ afterEvaluate {
         publications {
             maven(MavenPublication) {
                 from components.release
-                groupId = "com.github.liu-wanshun"
                 artifactId = 'launcherlib-plugincore'
-                version = "13"
             }
         }
     }

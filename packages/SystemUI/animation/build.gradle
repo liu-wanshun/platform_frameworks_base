@@ -52,9 +52,7 @@ afterEvaluate {
         publications {
             maven(MavenPublication) {
                 from components.release
-                groupId = "com.github.liu-wanshun"
                 artifactId = 'launcherlib-systemui-animation'
-                version = "13"
             }
         }
     }

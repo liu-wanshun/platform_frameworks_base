@@ -72,7 +72,7 @@ public final class InteractionJankMonitorWrapper {
      * @param cujType the specific {@link InteractionJankMonitor.CujType}.
      */
     public static void begin(View v, @CujType int cujType) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return;
+        if (true) return;
         InteractionJankMonitor.getInstance().begin(v, cujType);
     }
 
@@ -84,7 +84,7 @@ public final class InteractionJankMonitorWrapper {
      * @param timeout duration to cancel the instrumentation in ms
      */
     public static void begin(View v, @CujType int cujType, long timeout) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return;
+        if (true) return;
         Configuration.Builder builder =
                 Configuration.Builder.withView(cujType, v)
                         .setTimeout(timeout);
@@ -99,7 +99,7 @@ public final class InteractionJankMonitorWrapper {
      * @param tag the tag to distinguish different flow of same type CUJ.
      */
     public static void begin(View v, @CujType int cujType, String tag) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return;
+        if (true) return;
         Configuration.Builder builder =
                 Configuration.Builder.withView(cujType, v);
         if (!TextUtils.isEmpty(tag)) {
@@ -114,7 +114,7 @@ public final class InteractionJankMonitorWrapper {
      * @param cujType the specific {@link InteractionJankMonitor.CujType}.
      */
     public static void end(@CujType int cujType) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return;
+        if (true) return;
         InteractionJankMonitor.getInstance().end(cujType);
     }
 
@@ -122,7 +122,7 @@ public final class InteractionJankMonitorWrapper {
      * Cancel the trace session.
      */
     public static void cancel(@CujType int cujType) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return;
+        if (true) return;
         InteractionJankMonitor.getInstance().cancel(cujType);
     }
 }

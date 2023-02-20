@@ -32,6 +32,12 @@ subprojects {
                     }
                 }
             }
+            publications {
+                maven(MavenPublication) {
+                    groupId = "com.github.liu-wanshun"
+                    version = "13.0.1"
+                }
+            }
         }
     }
 }

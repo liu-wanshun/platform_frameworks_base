@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
+android {
+    namespace 'app.lws.launcherc.quickstepcompat.thirteen'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 28
+        targetSdk 33
+    }
+    sourceSets {
+        main {
+            java.srcDirs = ["src"]
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    addFrameworkJar('framework-13.jar')
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation project(':quickstepcompat')
+    implementation project(':quickstepcompatS')
+}
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.release
+                artifactId = 'launcherlib-quickstepcompat-t'
+            }
+        }
+    }
+}

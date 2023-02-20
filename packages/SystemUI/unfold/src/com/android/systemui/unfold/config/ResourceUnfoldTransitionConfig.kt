@@ -15,6 +15,7 @@
 package com.android.systemui.unfold.config
 
 import android.content.res.Resources
+import android.os.Build
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,6 +23,9 @@ import javax.inject.Singleton
 class ResourceUnfoldTransitionConfig @Inject constructor() : UnfoldTransitionConfig {
 
     override val isEnabled: Boolean by lazy {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return@lazy false
+        }
         val id = Resources.getSystem()
             .getIdentifier("config_unfoldTransitionEnabled", "bool", "android")
         Resources.getSystem().getBoolean(id)

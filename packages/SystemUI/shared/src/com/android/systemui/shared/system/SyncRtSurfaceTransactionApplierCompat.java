@@ -28,6 +28,8 @@ import android.view.SurfaceControl.Transaction;
 import android.view.View;
 import android.view.ViewRootImpl;
 
+import app.lws.launcherc.quickstepcompat.QuickstepCompat;
+
 import java.util.function.Consumer;
 
 /**
@@ -362,17 +364,21 @@ public class SyncRtSurfaceTransactionApplierCompat {
             if ((flags & FLAG_BACKGROUND_BLUR_RADIUS) != 0) {
                 t.setBackgroundBlurRadius(surface, backgroundBlurRadius);
             }
-            if ((flags & FLAG_VISIBILITY) != 0) {
-                if (visible) {
-                    t.show(surface);
-                } else {
-                    t.hide(surface);
+            if (QuickstepCompat.ATLEAST_R) {
+                if ((flags & FLAG_VISIBILITY) != 0) {
+                    if (visible) {
+                        t.show(surface);
+                    } else {
+                        t.hide(surface);
+                    }
                 }
+            } else {
+                t.show(surface);
             }
             if ((flags & FLAG_RELATIVE_LAYER) != 0) {
                 t.setRelativeLayer(surface, relativeTo, relativeLayer);
             }
-            if ((flags & FLAG_SHADOW_RADIUS) != 0) {
+            if ((flags & FLAG_SHADOW_RADIUS) != 0 && QuickstepCompat.ATLEAST_R) {
                 t.setShadowRadius(surface, shadowRadius);
             }
         }

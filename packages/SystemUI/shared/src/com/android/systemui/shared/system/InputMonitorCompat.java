@@ -16,6 +16,7 @@
 package com.android.systemui.shared.system;
 
 import android.hardware.input.InputManager;
+import android.os.Bundle;
 import android.os.Looper;
 import android.view.Choreographer;
 import android.view.InputMonitor;
@@ -57,5 +58,16 @@ public class InputMonitorCompat {
             InputEventListener listener) {
         return new InputEventReceiver(mInputMonitor.getInputChannel(), looper, choreographer,
                 listener);
+    }
+
+
+    private InputMonitorCompat(InputMonitor monitor) {
+        mInputMonitor = monitor;
+    }
+    /**
+     * Gets the input monitor stored in a bundle
+     */
+    public static InputMonitorCompat fromBundle(Bundle bundle, String key) {
+        return new InputMonitorCompat((InputMonitor)(bundle.getParcelable(key)));
     }
 }

@@ -35,11 +35,14 @@ import android.app.WindowConfiguration;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.RemoteAnimationTarget;
 import android.view.SurfaceControl;
 import android.view.WindowManager;
 import android.window.TransitionInfo;
+
+import app.lws.launcherc.quickstepcompat.QuickstepCompat;
 
 import java.util.ArrayList;
 
@@ -92,23 +95,38 @@ public class RemoteAnimationTargetCompat {
         isTranslucent = app.isTranslucent;
         clipRect = app.clipRect;
         position = app.position;
-        localBounds = app.localBounds;
+        localBounds = new Rect();//app.localBounds;
         sourceContainerBounds = app.sourceContainerBounds;
-        screenSpaceBounds = app.screenSpaceBounds;
+        screenSpaceBounds = new Rect();//app.screenSpaceBounds;
+        if (QuickstepCompat.ATLEAST_R) {
+            localBounds.set(app.localBounds);
+            screenSpaceBounds.set(app.screenSpaceBounds);
+        } else {
+            localBounds.set(sourceContainerBounds);
+            screenSpaceBounds.set(sourceContainerBounds);
+        }
         startScreenSpaceBounds = screenSpaceBounds;
         prefixOrderIndex = app.prefixOrderIndex;
         isNotInRecents = app.isNotInRecents;
         contentInsets = app.contentInsets;
         activityType = app.windowConfiguration.getActivityType();
-        taskInfo = app.taskInfo;
-        allowEnterPip = app.allowEnterPip;
+        taskInfo = QuickstepCompat.ATLEAST_S ? app.taskInfo : null;
+        allowEnterPip = QuickstepCompat.ATLEAST_T && app.allowEnterPip;
         rotationChange = 0;
 
         mStartLeash = app.startLeash;
-        windowType = app.windowType;
+        windowType = QuickstepCompat.ATLEAST_S ? app.windowType : INVALID_WINDOW_TYPE;
         windowConfiguration = app.windowConfiguration;
         startBounds = app.startBounds;
-        willShowImeOnTarget = app.willShowImeOnTarget;
+        boolean willShowImeOnTarget;
+        try {
+            willShowImeOnTarget = app.willShowImeOnTarget;
+        } catch (NoSuchFieldError error) {
+            Log.w("lws", "RemoteAnimationTargetCompat: not android 13 qpr1",error );
+            willShowImeOnTarget = false;
+        }
+        this.willShowImeOnTarget = willShowImeOnTarget;
+
     }
 
     private static int newModeToLegacyMode(int newMode) {
@@ -125,12 +143,22 @@ public class RemoteAnimationTargetCompat {
     }
 
     public RemoteAnimationTarget unwrap() {
+        if (!QuickstepCompat.ATLEAST_T) {
+            return QuickstepCompat.getFactory().createRemoteAnimationTarget(taskId, mode, leash, isTranslucent, clipRect, contentInsets,
+                    prefixOrderIndex, position, localBounds, screenSpaceBounds, windowConfiguration,
+                    isNotInRecents, mStartLeash, startBounds, taskInfo, allowEnterPip, windowType);
+        }
         final RemoteAnimationTarget target = new RemoteAnimationTarget(
                 taskId, mode, leash, isTranslucent, clipRect, contentInsets,
                 prefixOrderIndex, position, localBounds, screenSpaceBounds, windowConfiguration,
                 isNotInRecents, mStartLeash, startBounds, taskInfo, allowEnterPip, windowType
         );
-        target.setWillShowImeOnTarget(willShowImeOnTarget);
+        try {
+            target.setWillShowImeOnTarget(willShowImeOnTarget);
+        } catch (NoSuchMethodError error) {
+            Log.w("lws", "RemoteAnimationTargetCompat: not android 13 qpr1", error);
+        }
+
         return target;
     }
 

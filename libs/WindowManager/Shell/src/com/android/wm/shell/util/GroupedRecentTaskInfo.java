@@ -85,9 +85,11 @@ public class GroupedRecentTaskInfo implements Parcelable {
     }
 
     GroupedRecentTaskInfo(Parcel parcel) {
-        mTasks = parcel.createTypedArray(ActivityManager.RecentTaskInfo.CREATOR);
+        ActivityManager.RecentTaskInfo mTaskInfo1 = parcel.readTypedObject(ActivityManager.RecentTaskInfo.CREATOR);
+        ActivityManager.RecentTaskInfo mTaskInfo2 = parcel.readTypedObject(ActivityManager.RecentTaskInfo.CREATOR);
+        mTasks = new ActivityManager.RecentTaskInfo[]{mTaskInfo1,mTaskInfo2};
         mSplitBounds = parcel.readTypedObject(SplitBounds.CREATOR);
-        mType = parcel.readInt();
+        mType = TYPE_SINGLE;
     }
 
     /**
@@ -178,9 +180,10 @@ public class GroupedRecentTaskInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeTypedArray(mTasks, flags);
+        parcel.writeTypedObject(mTasks[0], flags);
+        parcel.writeTypedObject(mTasks[1], flags);
         parcel.writeTypedObject(mSplitBounds, flags);
-        parcel.writeInt(mType);
+        //parcel.writeInt(mType);
     }
 
     @Override

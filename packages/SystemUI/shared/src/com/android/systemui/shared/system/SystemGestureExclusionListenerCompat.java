@@ -41,6 +41,12 @@ public abstract class SystemGestureExclusionListenerCompat {
                         onExclusionChanged(systemGestureExclusion, unrestricted);
                     }
                 }
+
+                // android10 qpr1之前
+                public void onSystemGestureExclusionChanged(int displayId,
+                                                            Region systemGestureExclusion) {
+                    onSystemGestureExclusionChanged(displayId, systemGestureExclusion, null);
+                }
             };
     private boolean mRegistered;
 

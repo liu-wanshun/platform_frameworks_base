@@ -42,6 +42,7 @@ import android.window.RemoteTransition;
 import android.window.TransitionInfo;
 
 import com.android.wm.shell.util.CounterRotator;
+import app.lws.launcherc.quickstepcompat.QuickstepCompat;
 
 /**
  * @see RemoteAnimationAdapter
@@ -55,7 +56,11 @@ public class RemoteAnimationAdapterCompat {
             long statusBarTransitionDelay, IApplicationThread appThread) {
         mWrapped = new RemoteAnimationAdapter(wrapRemoteAnimationRunner(runner), duration,
                 statusBarTransitionDelay);
-        mRemoteTransition = buildRemoteTransition(runner, appThread);
+        if (QuickstepCompat.ATLEAST_T) {
+            mRemoteTransition = buildRemoteTransition(runner, appThread);
+        } else {
+            mRemoteTransition = null;
+        }
     }
 
     public RemoteAnimationAdapter getWrapped() {
@@ -104,8 +109,64 @@ public class RemoteAnimationAdapterCompat {
                         nonAppsCompat, animationFinishedCallback);
             }
 
+            /**
+             * compat for android 11
+             */
+            public void onAnimationStart(RemoteAnimationTarget[] apps,
+                                         RemoteAnimationTarget[] wallpapers,
+                                         final IRemoteAnimationFinishedCallback finishedCallback) {
+                final RemoteAnimationTargetCompat[] appsCompat =
+                        RemoteAnimationTargetCompat.wrap(apps);
+                final RemoteAnimationTargetCompat[] wallpapersCompat =
+                        RemoteAnimationTargetCompat.wrap(wallpapers);
+                final Runnable animationFinishedCallback = new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            finishedCallback.onAnimationFinished();
+                        } catch (RemoteException e) {
+                            Log.e("ActivityOptionsCompat", "Failed to call app controlled animation"
+                                    + " finished callback", e);
+                        }
+                    }
+                };
+                remoteAnimationAdapter.onAnimationStart(0, appsCompat, wallpapersCompat,
+                        new RemoteAnimationTargetCompat[]{}, animationFinishedCallback);
+            }
+
+            /**
+             * compat for android 10
+             */
+            public void onAnimationStart(RemoteAnimationTarget[] apps,
+                                         final IRemoteAnimationFinishedCallback finishedCallback) {
+                final RemoteAnimationTargetCompat[] appsCompat =
+                        RemoteAnimationTargetCompat.wrap(apps);
+                final RemoteAnimationTargetCompat[] wallpapersCompat =
+                        RemoteAnimationTargetCompat.wrap(null);
+                final Runnable animationFinishedCallback = new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            finishedCallback.onAnimationFinished();
+                        } catch (RemoteException e) {
+                            Log.e("ActivityOptionsCompat", "Failed to call app controlled animation"
+                                    + " finished callback", e);
+                        }
+                    }
+                };
+                remoteAnimationAdapter.onAnimationStart(0, appsCompat, wallpapersCompat,
+                        new RemoteAnimationTargetCompat[]{}, animationFinishedCallback);
+            }
+
             @Override
             public void onAnimationCancelled(boolean isKeyguardOccluded) {
+                remoteAnimationAdapter.onAnimationCancelled();
+            }
+
+            /**
+             * compat for android 12
+             */
+            public void onAnimationCancelled() {
                 remoteAnimationAdapter.onAnimationCancelled();
             }
         };

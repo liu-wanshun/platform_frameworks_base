@@ -36,6 +36,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.internal.util.ArrayUtils;
+import app.lws.launcherc.quickstepcompat.QuickstepCompat;
 
 import java.io.PrintWriter;
 import java.util.Objects;
@@ -234,8 +235,9 @@ public class Task {
     public boolean isLocked;
 
     // Last snapshot data, only used for recent tasks
-    public ActivityManager.RecentTaskInfo.PersistedTaskSnapshotData lastSnapshotData =
-            new ActivityManager.RecentTaskInfo.PersistedTaskSnapshotData();
+    public Object lastSnapshotData = QuickstepCompat.ATLEAST_S
+            ? new ActivityManager.RecentTaskInfo.PersistedTaskSnapshotData()
+            : null;
 
     /**
      * Indicates that this task for the desktop tile in recents.
@@ -255,7 +257,7 @@ public class Task {
         ActivityManager.TaskDescription td = taskInfo.taskDescription;
         // Also consider undefined activity type to include tasks in overview right after rebooting
         // the device.
-        final boolean isDockable = taskInfo.supportsMultiWindow
+        final boolean isDockable = QuickstepCompat.ATLEAST_S && taskInfo.supportsMultiWindow
                 && ArrayUtils.contains(CONTROLLED_WINDOWING_MODES, taskInfo.getWindowingMode())
                 && (taskInfo.getActivityType() == ACTIVITY_TYPE_UNDEFINED
                 || ArrayUtils.contains(CONTROLLED_ACTIVITY_TYPES, taskInfo.getActivityType()));
@@ -273,7 +275,10 @@ public class Task {
     public Task(Task other) {
         this(other.key, other.colorPrimary, other.colorBackground, other.isDockable,
                 other.isLocked, other.taskDescription, other.topActivity);
-        lastSnapshotData.set(other.lastSnapshotData);
+        if (QuickstepCompat.ATLEAST_S) {
+            ((ActivityManager.RecentTaskInfo.PersistedTaskSnapshotData) lastSnapshotData)
+                    .set((ActivityManager.RecentTaskInfo.PersistedTaskSnapshotData) other.lastSnapshotData);
+        }
         desktopTile = other.desktopTile;
     }
 
@@ -303,13 +308,18 @@ public class Task {
     }
 
     public void setLastSnapshotData(ActivityManager.RecentTaskInfo rawTask) {
-        lastSnapshotData.set(rawTask.lastSnapshotData);
+        if (QuickstepCompat.ATLEAST_S) {
+            ((ActivityManager.RecentTaskInfo.PersistedTaskSnapshotData) lastSnapshotData)
+                    .set(rawTask.lastSnapshotData);
+        }
     }
 
     /**
      * Returns the visible width to height ratio. Returns 0f if snapshot data is not available.
      */
     public float getVisibleThumbnailRatio(boolean clipInsets) {
+        ActivityManager.RecentTaskInfo.PersistedTaskSnapshotData lastSnapshotData =
+                (ActivityManager.RecentTaskInfo.PersistedTaskSnapshotData) this.lastSnapshotData;
         if (lastSnapshotData.taskSize == null || lastSnapshotData.contentInsets == null) {
             return 0f;
         }

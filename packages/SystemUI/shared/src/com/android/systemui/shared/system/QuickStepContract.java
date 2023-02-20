@@ -27,6 +27,7 @@ import android.view.ViewConfiguration;
 import android.view.WindowManagerPolicyConstants;
 
 import com.android.internal.policy.ScreenDecorationsUtils;
+import app.lws.launcherc.quickstepcompat.QuickstepCompat;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -284,6 +285,9 @@ public class QuickStepContract {
      * scaling, this means that we don't have to reload them on config changes.
      */
     public static float getWindowCornerRadius(Context context) {
+        if (!QuickstepCompat.ATLEAST_T) {
+            return 0;
+        }
         return ScreenDecorationsUtils.getWindowCornerRadius(context);
     }
 

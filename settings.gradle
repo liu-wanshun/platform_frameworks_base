@@ -29,3 +29,14 @@ include ':SystemUIShared'
 project(':SystemUIShared').projectDir = new File("packages/SystemUI/shared")
 include ':SystemUIUnfold'
 project(':SystemUIUnfold').projectDir = new File("packages/SystemUI/unfold")
+// quickstepcompat
+include ':quickstepcompat'
+project(':quickstepcompat').projectDir = new File("quickstepcompat")
+include ':quickstepcompatQ'
+project(':quickstepcompatQ').projectDir = new File("quickstepcompat/quickstepcompatQ")
+include ':quickstepcompatR'
+project(':quickstepcompatR').projectDir = new File("quickstepcompat/quickstepcompatR")
+include ':quickstepcompatS'
+project(':quickstepcompatS').projectDir = new File("quickstepcompat/quickstepcompatS")
+include ':quickstepcompatT'
+project(':quickstepcompatT').projectDir = new File("quickstepcompat/quickstepcompatT")
