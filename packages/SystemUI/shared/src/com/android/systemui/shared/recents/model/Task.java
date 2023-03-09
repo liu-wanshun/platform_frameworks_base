@@ -257,10 +257,11 @@ public class Task {
         ActivityManager.TaskDescription td = taskInfo.taskDescription;
         // Also consider undefined activity type to include tasks in overview right after rebooting
         // the device.
-        final boolean isDockable = QuickstepCompat.ATLEAST_S && taskInfo.supportsMultiWindow
+        final boolean isDockable = (QuickstepCompat.ATLEAST_S && taskInfo.supportsMultiWindow
                 && ArrayUtils.contains(CONTROLLED_WINDOWING_MODES, taskInfo.getWindowingMode())
                 && (taskInfo.getActivityType() == ACTIVITY_TYPE_UNDEFINED
-                || ArrayUtils.contains(CONTROLLED_ACTIVITY_TYPES, taskInfo.getActivityType()));
+                || ArrayUtils.contains(CONTROLLED_ACTIVITY_TYPES, taskInfo.getActivityType())))
+                || QuickstepCompat.getFactory().getTaskInfoCompat(taskInfo).supportsSplitScreenMultiWindow();
         return new Task(taskKey,
                 td != null ? td.getPrimaryColor() : 0,
                 td != null ? td.getBackgroundColor() : 0, isDockable , isLocked, td,

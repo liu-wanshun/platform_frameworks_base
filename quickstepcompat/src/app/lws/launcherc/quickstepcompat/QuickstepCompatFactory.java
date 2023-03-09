@@ -1,6 +1,7 @@
 package app.lws.launcherc.quickstepcompat;
 
 import android.app.ActivityManager;
+import android.app.TaskInfo;
 import android.app.WindowConfiguration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -28,4 +29,8 @@ public abstract class QuickstepCompatFactory {
                                                                       SurfaceControl startLeash, Rect startBounds,
                                                                       ActivityManager.RunningTaskInfo taskInfo, boolean allowEnterPip,
                                                                       int windowType);
+
+    public TaskInfoCompat getTaskInfoCompat(TaskInfo taskInfo) {
+        return () -> false;
+    }
 }

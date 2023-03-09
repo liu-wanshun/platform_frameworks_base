@@ -1,6 +1,7 @@
 package app.lws.launcherc.quickstepcompat.eleven;
 
 import android.app.ActivityManager;
+import android.app.TaskInfo;
 import android.app.WindowConfiguration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import app.lws.launcherc.quickstepcompat.ActivityManagerCompat;
 import app.lws.launcherc.quickstepcompat.ActivityOptionsCompat;
 import app.lws.launcherc.quickstepcompat.QuickstepCompatFactory;
+import app.lws.launcherc.quickstepcompat.TaskInfoCompat;
 
 public class QuickstepCompatFactoryVR extends QuickstepCompatFactory {
 
@@ -42,5 +44,10 @@ public class QuickstepCompatFactoryVR extends QuickstepCompatFactory {
                 prefixOrderIndex, position, localBounds, screenSpaceBounds, windowConfig,
                 isNotInRecents, startLeash, startBounds
         );
+    }
+
+    @Override
+    public TaskInfoCompat getTaskInfoCompat(TaskInfo taskInfo) {
+        return new TaskInfoCompatVR(taskInfo);
     }
 }
