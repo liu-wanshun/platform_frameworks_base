@@ -6,6 +6,18 @@ plugins {
 }
 
 subprojects {
+    plugins.withType(com.android.build.gradle.BasePlugin).configureEach {
+        project.android {
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_1_8
+                targetCompatibility JavaVersion.VERSION_1_8
+            }
+            lint {
+                abortOnError false
+                checkReleaseBuilds false
+            }
+        }
+    }
     ext.addFrameworkJar = { String path ->
         def frameworkJar = new File(rootProject.projectDir, 'prebuilt/' + path)
         if (!frameworkJar.exists()) {
@@ -27,15 +39,15 @@ subprojects {
                     name = "GitHubPackages"
                     url = "https://maven.pkg.github.com/liu-wanshun/platform_frameworks_base"
                     credentials {
-                        username = System.getenv("GITHUB_ACTOR")
-                        password = System.getenv("GITHUB_TOKEN")
+                        username = System.getenv("USERNAME")
+                        password = System.getenv("TOKEN")
                     }
                 }
             }
             publications {
                 maven(MavenPublication) {
                     groupId = "com.github.liu-wanshun"
-                    version = "13.0.1"
+                    version = "13.0." + System.getenv("GITHUB_RUN_NUMBER")
                 }
             }
         }
