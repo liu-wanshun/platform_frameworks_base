@@ -1,6 +1,6 @@
 # platform_frameworks_base for LauncherC
 
-[![gradle-publish](https://github.com/liu-wanshun/platform_frameworks_base/actions/workflows/gradle-publish.yml/badge.svg)](https://github.com/liu-wanshun/platform_frameworks_base/actions/workflows/gradle-publish.yml)
+[![snapshot](https://github.com/liu-wanshun/platform_frameworks_base/actions/workflows/publish-snapshot-packages.yml/badge.svg)](https://github.com/liu-wanshun/platform_frameworks_base/actions/workflows/publish-snapshot-packages.yml)
 [![release](https://badgen.net/github/release/liu-wanshun/platform_frameworks_base)](https://github.com/liu-wanshun/platform_frameworks_base/releases)
 [![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 

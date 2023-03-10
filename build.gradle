@@ -47,7 +47,11 @@ subprojects {
             publications {
                 maven(MavenPublication) {
                     groupId = "com.github.liu-wanshun"
-                    version = "13.0." + System.getenv("GITHUB_RUN_NUMBER")
+                    if ("true" == System.getenv("CI")) {
+                        version = "13-SNAPSHOT"
+                    } else {
+                        version = "13.0." + System.getenv("GITHUB_RUN_NUMBER")
+                    }
                 }
             }
         }

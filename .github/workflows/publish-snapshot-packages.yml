@@ -5,12 +5,43 @@
 # This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
 
-name: Gradle Package
+name: Publish Snapshot Packages
 
 on:
   workflow_dispatch:
-  release:
-    types: [created]
+  workflow_call:
+  push:
+    branches: [ "c13" ]
+    paths:
+      - '.github/**'
+      - 'gradle/**'
+      - 'build.gradle'
+      - 'gradle.properties'
+      - 'settings.gradle'
+      - 'prebuilt/**'
+      - 'packages/SystemUI/shared/**'
+      - 'packages/SystemUI/unfold/**'
+      - 'packages/SystemUI/plugin_core/**'
+      - 'packages/SystemUI/plugin/**'
+      - 'packages/SystemUI/animation/**'
+      - 'quickstepcompat/**'
+      - 'libs/WindowManager/Shell/**'
+  pull_request:
+    branches: [ "c13" ]
+    paths:
+      - '.github/**'
+      - 'gradle/**'
+      - 'build.gradle'
+      - 'gradle.properties'
+      - 'settings.gradle'
+      - 'prebuilt/**'
+      - 'packages/SystemUI/shared/**'
+      - 'packages/SystemUI/unfold/**'
+      - 'packages/SystemUI/plugin_core/**'
+      - 'packages/SystemUI/plugin/**'
+      - 'packages/SystemUI/animation/**'
+      - 'quickstepcompat/**'
+      - 'libs/WindowManager/Shell/**'
 
 jobs:
   build:
