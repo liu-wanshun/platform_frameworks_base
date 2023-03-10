@@ -1,0 +1,83 @@
+name: Delete Packages
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: 'com.github.liu-wanshun.launcherlib-wmshell'
+          package-type: 'maven'
+          min-versions-to-keep: 0
+
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: 'com.github.liu-wanshun.launcherlib-systemui-shared'
+          package-type: 'maven'
+          min-versions-to-keep: 0
+
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: 'com.github.liu-wanshun.launcherlib-systemui-animation'
+          package-type: 'maven'
+          min-versions-to-keep: 0
+
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: 'com.github.liu-wanshun.launcherlib-systemui-unfold'
+          package-type: 'maven'
+          min-versions-to-keep: 0
+
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: 'com.github.liu-wanshun.launcherlib-systemui-plugins'
+          package-type: 'maven'
+          min-versions-to-keep: 0
+
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: 'com.github.liu-wanshun.launcherlib-plugincore'
+          package-type: 'maven'
+          min-versions-to-keep: 0
+
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: 'com.github.liu-wanshun.launcherlib-quickstepcompat'
+          package-type: 'maven'
+          min-versions-to-keep: 0
+
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: 'com.github.liu-wanshun.launcherlib-quickstepcompat-q'
+          package-type: 'maven'
+          min-versions-to-keep: 0
+
+
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: 'com.github.liu-wanshun.launcherlib-quickstepcompat-r'
+          package-type: 'maven'
+          min-versions-to-keep: 0
+
+
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: 'com.github.liu-wanshun.launcherlib-quickstepcompat-s'
+          package-type: 'maven'
+          min-versions-to-keep: 0
+
+
+      - uses: actions/delete-package-versions@v4
+        with:
+          package-name: 'com.github.liu-wanshun.launcherlib-quickstepcompat-t'
+          package-type: 'maven'
+          min-versions-to-keep: 0
