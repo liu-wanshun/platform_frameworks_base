@@ -8,6 +8,7 @@
 /gradlew.bat
 /settings.gradle
 /prebuilt
+/README.md
 packages/SystemUI/shared
 packages/SystemUI/unfold
 packages/SystemUI/plugin_core

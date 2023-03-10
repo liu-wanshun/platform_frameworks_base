@@ -9,13 +9,8 @@ name: Gradle Package
 
 on:
   workflow_dispatch:
-  workflow_call:
-  push:
-    branches: [ "c13" ]
-  pull_request:
-    branches: [ "c13" ]
   release:
-    types: [ created ]
+    types: [created]
 
 jobs:
   build:
