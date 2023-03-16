@@ -64,6 +64,28 @@ public abstract class RemoteAnimationRunnerCompat extends IRemoteAnimationRunner
                 });
     }
 
+    // Called only in R platform
+    public void onAnimationStart(RemoteAnimationTarget[] appTargets,
+                                 RemoteAnimationTarget[] wallpaperTargets, IRemoteAnimationFinishedCallback finishedCallback) {
+        onAnimationStart(0 /* transit */, appTargets, wallpaperTargets,
+                new RemoteAnimationTarget[0], finishedCallback);
+    }
+
+    // Called only in Q platform
+    public void onAnimationStart(RemoteAnimationTarget[] appTargets,
+                                 IRemoteAnimationFinishedCallback finishedCallback) {
+        onAnimationStart(appTargets, new RemoteAnimationTarget[0], finishedCallback);
+    }
+
+    public void onAnimationCancelled(boolean isKeyguardOccluded) {
+
+    }
+
+    // Called only in S- platform
+    public void onAnimationCancelled() {
+        onAnimationCancelled(true);
+    }
+
     public IRemoteTransition toRemoteTransition() {
         return new IRemoteTransition.Stub() {
             final ArrayMap<IBinder, Runnable> mFinishRunnables = new ArrayMap<>();
