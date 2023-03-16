@@ -1579,7 +1579,8 @@ public class LockPatternUtils {
          * If any other flags are set, biometric authentication is disabled.
          */
         private static final int ALLOWING_BIOMETRIC = STRONG_AUTH_NOT_REQUIRED
-                | SOME_AUTH_REQUIRED_AFTER_USER_REQUEST;
+                | SOME_AUTH_REQUIRED_AFTER_USER_REQUEST
+                | SOME_AUTH_REQUIRED_AFTER_TRUSTAGENT_EXPIRED;
 
         private final SparseIntArray mStrongAuthRequiredForUser = new SparseIntArray();
         private final H mHandler;
