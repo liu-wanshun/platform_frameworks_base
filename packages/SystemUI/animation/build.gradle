@@ -46,6 +46,8 @@ android {
 
 dependencies {
     implementation project(path: ':PluginCore')
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation("androidx.core:core-animation:1.0.0-beta01")
 }
 afterEvaluate {
     publishing {

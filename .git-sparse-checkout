@@ -18,3 +18,7 @@ packages/SystemUI/animation
 libs/WindowManager/Shell/build.gradle
 libs/WindowManager/Shell/src/com/android/wm/shell/util/**/*.java
 libs/WindowManager/Shell/src/com/android/wm/shell/common/split/SplitScreenConstants.java
+libs/WindowManager/Shell/src/com/android/wm/shell/sysui/ShellSharedConstants.java
+libs/WindowManager/Shell/src/com/android/wm/shell/common/TransactionPool.java
+libs/WindowManager/Shell/src/com/android/wm/shell/animation/Interpolators.java
+libs/WindowManager/Shell/src/com/android/wm/shell/startingsurface/SplashScreenExitAnimationUtils.java

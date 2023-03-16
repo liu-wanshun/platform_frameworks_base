@@ -127,7 +127,7 @@ public class ActivityManagerWrapper {
     /**
      * @return a list of the recents tasks.
      */
-    public List<RecentTaskInfo> getRecentTasks(int numTasks, int userId) {
+    public List<ActivityManager.RecentTaskInfo> getRecentTasks(int numTasks, int userId) {
         return QuickstepCompat.getActivityManagerCompat().getRecentTasks(numTasks, userId);
     }
 
@@ -230,7 +230,7 @@ public class ActivityManagerWrapper {
                      * compat for android 12/11
                      */
                     public void onTaskAppeared(RemoteAnimationTarget app) {
-                        animationHandler.onTasksAppeared(new RemoteAnimationTargetCompat[]{new RemoteAnimationTargetCompat(app)});
+                        animationHandler.onTasksAppeared(new RemoteAnimationTarget[]{app});
                     }
 
                     @Override
