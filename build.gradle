@@ -1,12 +1,15 @@
+import com.android.build.gradle.LibraryPlugin
+import com.android.build.gradle.api.AndroidBasePlugin
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id "com.android.library" version "7.4.2" apply false
-    id "org.jetbrains.kotlin.android" version "1.8.10" apply false
+    id "com.android.library" version "8.0.1" apply false
+    id "org.jetbrains.kotlin.android" version "1.8.20" apply false
 }
 
 subprojects {
-    plugins.withType(com.android.build.gradle.BasePlugin).configureEach {
+    plugins.withType(AndroidBasePlugin).configureEach {
         project.android {
             compileOptions {
                 sourceCompatibility JavaVersion.VERSION_1_8
@@ -17,6 +20,19 @@ subprojects {
                 checkReleaseBuilds false
             }
         }
+    }
+    plugins.withType(LibraryPlugin).configureEach {
+        project.android {
+            publishing {
+                singleVariant("release") {
+                    withSourcesJar()
+                    withJavadocJar()
+                }
+            }
+        }
+    }
+    tasks.withType(KotlinCompile).configureEach {
+        compilerOptions.jvmTarget = JvmTarget.JVM_1_8
     }
     ext.addFrameworkJar = { String path ->
         def frameworkJar = new File(rootProject.projectDir, 'prebuilt/' + path)
@@ -36,11 +52,17 @@ subprojects {
         project.publishing {
             repositories {
                 maven {
-                    name = "GitHubPackages"
+                    name = "GithubPackagesRepo"
                     url = "https://maven.pkg.github.com/liu-wanshun/platform_frameworks_base"
                     credentials {
-                        username = System.getenv("USERNAME")
-                        password = System.getenv("TOKEN")
+                        /*
+                        Github Action 中使用 System.getenv()
+                        本地在gradle.properties中声明"gpr.user"和"gpr.key",详见:
+                        1:https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_configuration_properties
+                        2:https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package
+                        **/
+                        username = providers.gradleProperty("gpr.user").orNull ?: System.getenv("USERNAME")
+                        password = providers.gradleProperty("gpr.key").orNull ?: System.getenv("GITHUB_TOKEN")
                     }
                 }
             }

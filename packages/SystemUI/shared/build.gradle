@@ -13,6 +13,9 @@ android {
         minSdk 28
         targetSdk 28
     }
+    buildFeatures {
+        aidl = true
+    }
 
     sourceSets {
         main {
